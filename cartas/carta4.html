@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Un regalito para ti 🌹</title>
+  <style>
+    :root{
+      --fz-h1: clamp(20px, 5.5vw, 28px);
+      --fz-btn: clamp(18px, 5vw, 22px);
+      --pad-btn-y: clamp(12px, 3.5vw, 16px);
+      --pad-btn-x: clamp(20px, 6vw, 28px);
+      --fz-msg: clamp(18px, 5vw, 24px);
+      --fz-corner: clamp(28px, 8vw, 36px);
+      --fz-modal: clamp(18px, 5vw, 22px);
+      --fz-modal-btn: clamp(16px, 5vw, 20px);
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: 'Arial', sans-serif;
+      background: white;
+      text-align: center;
+      -webkit-text-size-adjust: 100%;
+    }
+    h1 {
+      color: #800040;
+      font-size: var(--fz-h1);
+      margin: 20px;
+      max-width: 90%;
+      line-height: 1.6;
+    }
+    button {
+      padding: var(--pad-btn-y) var(--pad-btn-x);
+      font-size: var(--fz-btn);
+      background: #d6336c;
+      border: none;
+      border-radius: 14px;
+      color: white;
+      cursor: pointer;
+      margin-top: 25px;
+      transition: 0.3s;
+    }
+    button:hover { background: #b32455; transform: scale(1.05); }
+
+    .hidden { display: none; }
+
+    .bouquet {
+      width: min(70vw, 340px);
+      opacity: 0;
+      transform: scale(0);
+      animation: grow 2s ease forwards;
+    }
+    @keyframes grow {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1.4); opacity: 1; }
+    }
+    .message {
+      font-size: var(--fz-msg);
+      color: white;
+      text-shadow: 2px 2px 6px #d6336c;
+      margin-top: 25px;
+      max-width: 90%;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+      animation-delay: 2s;
+      line-height: 1.6;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Iconito esquina */
+    .corner {
+      position: fixed;
+      top: 15px; right: 15px;
+      font-size: var(--fz-corner);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Modal personalizado */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;             /* se muestra por JS */
+      justify-content: center;
+      align-items: center;
+      z-index: 9998;
+    }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      width: 85%;
+      max-width: 380px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    }
+    .modal-content p {
+      font-size: var(--fz-modal);
+      margin-bottom: 15px;
+      color: #800040;
+    }
+    .modal-content button {
+      margin: 8px;
+      font-size: var(--fz-modal-btn);
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .modal-content button:first-of-type { background: #28a745; color: #fff; } /* Sí */
+    .modal-content button:last-of-type  { background: #dc3545; color: #fff; } /* No */
+
+    /* Labios */
+    .kiss {
+      font-size: clamp(100px, 22vw, 160px);
+      animation: pop 1s ease forwards;
+    }
+    @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  </style>
+</head>
+<body>
+  <h1 id="intro">
+    Buenas noches ✨ espero que te haya ido bien en el trabajo hoy. <br>
+    No quiero molestarte, solo quería darte esto:
+  </h1>
+  <button onclick="showGift()">Abrir sorpresa 🌹</button>
+
+  <div id="gift" class="hidden">
+    <img class="bouquet" src="https://pngimg.com/uploads/bouquet/bouquet_PNG56.png" alt="Ramo de flores realista">
+    <div class="message">
+      🌸 Sé el esfuerzo que haces cada mañana al levantarte, ir a estudiar y luego a trabajar. <br>
+      Sé que no es fácil, pero quiero que sepas que estoy muy orgulloso de ti 💕. <br>
+      Te admiro mucho, espero que tengas una buena noche y descanses tranquila ❤️
+    </div>
+  </div>
+
+  <!-- Icono en la esquina -->
+  <div class="corner" onclick="startQuestions()">💌</div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <p id="question"></p>
+      <button onclick="nextQuestion(true)">Sí 💖</button>
+      <button onclick="nextQuestion(false)">No 🌙</button>
+    </div>
+  </div>
+
+  <script>
+    function showGift() {
+      document.body.style.background = "pink";
+      document.getElementById("intro").style.display = "none";
+      document.querySelector("button").style.display = "none";
+      document.getElementById("gift").classList.remove("hidden");
+    }
+
+    const questions = [
+      "¿Estás segura de que quieres saber qué dejé aquí en esta nota? 💌",
+      "¿Segurita segurita de verdad? 😏",
+      "¿Aún quieres continuar? 👀",
+      "¿De veritas quieres saberlo? 💕",
+      "¿No te arrepentirás si sigues? 😘",
+      "Última oportunidad… ¿segura de que quieres saberlo? 💖"
+    ];
+    let currentQ = 0;
+
+    function startQuestions() {
+      currentQ = 0;
+      const modal = document.getElementById("modal");
+      document.getElementById("question").innerText = questions[currentQ];
+      modal.style.display = "flex";
+    }
+
+    function nextQuestion(answer) {
+      const modal = document.getElementById("modal");
+      if (!answer) {
+        modal.style.display = "none";
+        // Pantalla completa con mensaje de descanso
+        showFullScreen(
+          "#ffe6f0",
+          "https://cdn-icons-png.flaticon.com/512/833/833472.png",
+          "🌙 Descansa, que tu noche sea tan linda como tu naricita 💖"
+        );
+        return;
+      }
+      currentQ++;
+      if (currentQ < questions.length) {
+        document.getElementById("question").innerText = questions[currentQ];
+      } else {
+        modal.style.display = "none";
+        // Beso en PANTALLA COMPLETA fondo rosa
+        showFullScreen(
+          "pink",
+          "", // usaremos emoji, no imagen
+          "💋 Besitos para los cachetitos y para la narizitaaaaaaaaaaaaaaa 😘❤️",
+          true // mostrar labios grandes
+        );
+      }
+    }
+
+    // Crea una capa a pantalla completa (rosa total en el beso)
+    function showFullScreen(bgColor, imgSrc, text, isKiss=false){
+      const overlay = document.createElement("div");
+      overlay.style.position = "fixed";
+      overlay.style.inset = "0";
+      overlay.style.background = bgColor;
+      overlay.style.display = "flex";
+      overlay.style.flexDirection = "column";
+      overlay.style.alignItems = "center";
+      overlay.style.justifyContent = "center";
+      overlay.style.textAlign = "center";
+      overlay.style.padding = "20px";
+      overlay.style.zIndex = "9999";
+
+      if (isKiss){
+        const lips = document.createElement("div");
+        lips.className = "kiss";
+        lips.textContent = "💋";
+        overlay.appendChild(lips);
+      } else if (imgSrc){
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        img.alt = "";
+        img.style.width = "min(45vw, 220px)";
+        img.style.marginBottom = "18px";
+        overlay.appendChild(img);
+      }
+
+      const msg = document.createElement("h2");
+      msg.style.color = "#b30059";
+      msg.style.fontSize = "clamp(20px, 6vw, 28px)";
+      msg.style.marginTop = "20px";
+      msg.style.maxWidth = "90%";
+      msg.innerText = text;
+      overlay.appendChild(msg);
+
+      document.body.appendChild(overlay);
+    }
+  </script>
+</body>
+</html>

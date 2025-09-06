@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Dinámica</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+      width: 90%;
+      max-width: 350px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      text-align: center;
+      overflow: hidden;
+      border: 4px solid #ff4d6d;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #ff4d6d; }
+      to { box-shadow: 0 0 25px #ff99ac; }
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, #ff4d6d, #ff99ac);
+      color: white;
+      padding: 20px;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-body h2 {
+      color: #ff4d6d;
+      margin-bottom: 10px;
+      min-height: 60px; /* para que no salte el tamaño */
+      transition: opacity 0.5s ease;
+    }
+
+    .card-body p {
+      font-size: 1.1em;
+      color: #333;
+      min-height: 50px;
+      transition: opacity 0.5s ease;
+    }
+
+    .heart {
+      font-size: 60px;
+      animation: beat 1s infinite;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .footer {
+      background: #ffe3ec;
+      padding: 10px;
+      font-size: 0.9em;
+      color: #ff4d6d;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">Carta del Amor ✨</div>
+    <div class="card-body">
+      <div class="heart">❤️</div>
+      <h2 id="title">"Eres mi línea de código favorita"</h2>
+      <p id="text">Como en un programa perfecto, cada detalle de ti hace que mi mundo funcione.</p>
+    </div>
+    <div class="footer">Hecha con amor y código 💌</div>
+  </div>
+
+  <script>
+    const frases = [
+      {
+        titulo: '"Eres mi línea de código favorita"',
+        texto: "Como en un programa perfecto, cada detalle de ti hace que mi mundo funcione."
+      },
+      {
+        titulo: '"Nuestro amor es como un loop infinito"',
+        texto: "Siempre se repite, nunca termina, y cada vuelta me enamoro más. ♾️❤️"
+      },
+      {
+        titulo: '"Tú eres mi bug favorito"',
+        texto: "Porque incluso en el caos, haces que mi vida tenga sentido. 🐞💕"
+      },
+      {
+        titulo: '"Tu sonrisa es mi mejor algoritmo"',
+        texto: "Optimiza mis días y convierte cualquier error en felicidad. 😍💻"
+      },
+      {
+        titulo: '"Si fueras código, serías open source"',
+        texto: "Porque quiero compartirte con el mundo, pero quedarme contigo siempre. 🌍❤️"
+      }
+    ];
+
+    let index = 0;
+    const titleEl = document.getElementById("title");
+    const textEl = document.getElementById("text");
+
+    setInterval(() => {
+      index = (index + 1) % frases.length;
+      titleEl.style.opacity = 0;
+      textEl.style.opacity = 0;
+
+      setTimeout(() => {
+        titleEl.textContent = frases[index].titulo;
+        textEl.textContent = frases[index].texto;
+        titleEl.style.opacity = 1;
+        textEl.style.opacity = 1;
+      }, 500);
+    }, 3000); // cada 3 segundos cambia
+  </script>
+</body>
+</html>
