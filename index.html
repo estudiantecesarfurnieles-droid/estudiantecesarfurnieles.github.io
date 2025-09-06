@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Regalo para mi amor</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "5adf35cb-c5ef-4102-a679-c082cc872160",
+        });
+      });
+    </script>
+</head>
+<body>
+    <audio id="musicaFondo" loop></audio>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <button class="cerrar" id="modalClose" aria-label="Cerrar">⬅️ Regresar</button>
+            <h3 id="modal-titulo"></h3>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="modal-peluche" class="modal hidden">
+        <div class="modal-content">
+            <button class="cerrar" onclick="cerrarModalPeluche()">⬅️ Regresar</button>
+            <h3 id="titulo-peluche"></h3>
+            <p id="texto-peluche"></p>
+        </div>
+    </div>
+    
+    <div id="modal-imagen" class="modal hidden">
+        <div class="modal-content-img">
+            <button class="cerrar" onclick="cerrarModalImagen()">⬅️ Regresar</button>
+            <img id="imagen-ampliada" src="" alt="Foto ampliada" />
+        </div>
+    </div>
+
+    <section id="bienvenida" class="pantalla">
+        <div class="peluche-container">
+            <div class="peluche">
+                <img id="tich" src="img/tich1.jpg" alt="Tich" onclick="hablar('tich')" />
+                <div id="frase-tich" class="globito hidden"></div>
+                <button class="btn-mini" onclick="mostrarPeluche('tich')">Saber más</button>
+            </div>
+            <div class="peluche">
+                <img id="camila" src="img/camila1.jpg" alt="Camila" onclick="hablar('camila')" />
+                <div id="frase-camila" class="globito hidden"></div>
+                <button class="btn-mini" onclick="mostrarPeluche('camila')">Saber más</button>
+            </div>
+        </div>
+        <div class="presentacion">
+            <h1 id="saludo">Hola mi amor 💖</h1>
+            <p class="subtexto">
+                Soy tu bebé Koalita 🐨 y aquí siempre tendrás un rincón lleno de cartas,
+                fotos, frases, música y todo mi amor para ti 💕✨
+            </p>
+        </div>
+        <div class="caja-explicacion">
+            <h2>🌸 Cómo funciona esta página 🌸</h2>
+            <p>Mi amor, aquí tienes un espacio hecho solo para ti 💖.</p>
+            <ul style="text-align:left; max-width:500px; margin:10px auto; font-size:15px; line-height:1.5;">
+                <li>🧸 Toca a <strong>Tich</strong> o 🐻 <strong>Camila</strong> para que te hablen y te den un saludito.</li>
+                <li>✨ Si presionas <em>“Saber más”</em> en cada peluche, ellos te contarán algo muy especial.</li>
+                <li>💌 En la sección <strong>Cartas</strong> encontrarás cada domingo una nueva cartita escrita con amor.</li>
+                <li>📸 En <strong>Fotos & Videos</strong> estarán nuestros recuerdos más lindos.</li>
+                <li>🎬 Cada fin de semana habrá un link en <strong>Ver Película</strong> para ver algo juntos.</li>
+                <li>🙏 En <strong>Orar juntos</strong> tendrás el link y la hora para compartir oración conmigo.</li>
+                <li>💡 <strong>Frase del día</strong> siempre te mostrará una frase o versículo diferente.</li>
+                <li>❤️ En <strong>Te extraño</strong> podrás avisarme cuando me necesites mucho.</li>
+            </ul>
+            <p>Explora todo con calma, esta página está hecha con mucho amor solo para ti 💕.</p>
+        </div>
+        <button id="btnEntrar" class="btn-entrar">💖 Entrar a tu sorpresa 💖</button>
+    </section>
+
+    <section id="menu" class="pantalla hidden">
+        <h2>Menú principal</h2>
+        <ul class="menu-grid">
+            <li><button onclick="mostrarSeccion('cartas')">💌 Cartas</button></li>
+            <li><button onclick="mostrarSeccion('fotos')">📸 Fotos & Videos</button></li>
+            <li><button onclick="mostrarSeccion('peli')">🎬 Ver película</button></li>
+            <li><button onclick="mostrarSeccion('oracion')">🙏 Orar juntos</button></li>
+            <li><button onclick="mostrarSeccion('frase')">💡 Frase del día</button></li>
+            <li><button onclick="mostrarSeccion('extraño')">❤️ Te extraño</button></li>
+        </ul>
+        <button class="btn-sec" onclick="mostrarSeccion('bienvenida')">Volver</button>
+    </section>
+
+    <section id="cartas" class="pantalla hidden">
+        <h2>💌 Cartas</h2>
+        <div class="caja-explicacion">
+            <h3>Bienvenida mi amor 💖</h3>
+            <p>
+                Aquí encontrarás todas las cartas que te he escrito y las que seguiré escribiéndote con mucho amor.
+                Cada <strong>domingo a las 7:00 p.m.</strong> tendrás una carta nueva esperándote ✨.
+            </p>
+        </div>
+        <div class="caja-especial" onclick="abrirCarta('cartas/Nuestrahistoria.pdf','Nuestra Historia')">
+            <h3>📖 Nuestra Historia</h3>
+            <p>Haz clic para revivir lo que hemos escrito tú y yo 💑.</p>
+        </div>
+        <div class="contenedor-cartas">
+            <div class="carta-item">
+                <button class="sobre" onclick="abrirCarta('cartas/carta2.html','Carta 2')"></button>
+                <span class="sobre-label">Carta 2</span>
+            </div>
+            <div class="carta-item">
+                <button class="sobre" onclick="abrirCarta('cartas/carta3.html','Carta 3')"></button>
+                <span class="sobre-label">Carta 3</span>
+            </div>
+            <div class="carta-item">
+                <button class="sobre" onclick="abrirCarta('cartas/carta4.html','Carta 4')"></button>
+                <span class="sobre-label">Carta 4</span>
+            </div>
+            <div class="carta-item">
+                <button class="sobre" onclick="abrirCarta('cartas/carta5.html','Carta 5')"></button>
+                <span class="sobre-label">Carta 5</span>
+            </div>
+            <div class="carta-item">
+                <button class="sobre" onclick="abrirCarta('cartas/carta6.html','Carta 6')"></button>
+                <span class="sobre-label">Carta 6</span>
+            </div>
+        </div>
+        <button class="btn-sec" onclick="mostrarSeccion('menu')">Volver al menú</button>
+    </section>
+
+    <section id="fotos" class="pantalla hidden">
+        <h2>📸 Fotos & Videos</h2>
+        <div class="caja-explicacion">
+            <h3>Nuestros recuerdos 💖</h3>
+            <p>
+                Aquí guardamos los momentos más especiales que hemos compartido, desde el primer día hasta hoy. 
+                Toca una foto para verla más grande o dale play al video.
+            </p>
+        </div>
+
+        <div class="contenedor-galeria">
+            <div class="galeria-fotos">
+                <div class="caja-media">
+                    <img src="fotosyvideos/foto1.jpg" alt="Foto 1" onclick="abrirModalImagen('fotosyvideos/foto1.jpg')" />
+                    <p class="descripcion-media">
+                        Nuestra primera foto juntos, un momento que nunca olvidaré.
+                    </p>
+                </div>
+
+                <div class="caja-media">
+                    <img src="fotosyvideos/foto2.jpg" alt="Foto 2" onclick="abrirModalImagen('fotosyvideos/foto2.jpg')" />
+                    <p class="descripcion-media">
+                        Una selfie divertida en nuestro viaje, ¡no paramos de reír!
+                    </p>
+                </div>
+                
+                <div class="caja-media">
+                    <img src="fotosyvideos/foto3.jpg" alt="Foto 3" onclick="abrirModalImagen('fotosyvideos/foto3.jpg')" />
+                    <p class="descripcion-media">
+                        Caminando juntos de la mano, un recuerdo que atesoro.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="contenedor-video">
+                <div class="caja-media">
+                    <video src="fotosyvideos/video1.mp4" controls></video>
+                    <p class="descripcion-media">
+                        Un video cortito del día que nos sorprendió la lluvia.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-sec" onclick="mostrarSeccion('menu')">Volver al menú</button>
+    </section>
+
+    <section id="peli" class="pantalla hidden">
+        <h2>🎬 Ver Película</h2>
+        <div class="caja-explicacion">
+            <h3>Nuestra función de cine del sábado 💖</h3>
+            <p>
+                ¡Hola mi amor! Cada sábado a las **7:00 p.m.** te espero para ver una película juntos. 
+                Aquí abajo encontrarás el título de la película de la semana, su descripción y el link para que te unas al encuentro de Google Meet. ¡No olvides tus palomitas! 🍿
+            </p>
+        </div>
+
+        <div class="caja-pelicula">
+            <h3 id="tituloPelicula">Título de la película</h3>
+            <p id="descripcionPelicula">
+                Descripción breve de la película.
+            </p>
+            
+            <div class="link-container">
+                <input type="text" id="linkPelicula" readonly value="https://meet.google.com/..." aria-label="Enlace de la película">
+                <button id="copiarLink" class="btn-copiar">🔗 Copiar link</button>
+            </div>
+        </div>
+        <button class="btn-sec" onclick="mostrarSeccion('menu')">Volver al menú</button>
+    </section>
+
+    <section id="extraño" class="pantalla hidden">
+        <h2>❤️ Te extraño</h2>
+        <div class="caja-explicacion">
+            <h3>Mi amor, si me extrañas...</h3>
+            <p>
+                Si me extrañas y quieres que lo sepa, toca el botón de abajo. En cuanto lo presiones, mi teléfono vibrará para avisarme que estás pensando en mí. ¡Yo siempre estaré aquí para ti! 💕
+            </p>
+        </div>
+        
+        <button id="btnExtraño" class="btn-extraño">
+            <span class="corazon-animado">❤️</span>
+        </button>
+        
+        <button class="btn-sec" onclick="mostrarSeccion('menu')">Volver al menú</button>
+    </section>
+    
+    <section id="oracion" class="pantalla hidden"><h2>🙏 Orar juntos</h2></section>
+    <section id="frase" class="pantalla hidden"><h2>💡 Frase del día</h2></section>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>
